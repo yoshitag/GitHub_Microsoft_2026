@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Samsung Dryer Issue Intake</title>
+  <title>Samsung Dryer Issue Intake - Homeowner Details</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -17,8 +17,6 @@
       --line: #ccd7de;
       --accent: #0e7c86;
       --accent-2: #19426a;
-      --warn: #a4431f;
-      --ok: #1d7a3a;
       --shadow: 0 22px 60px rgba(23, 54, 65, 0.16);
       --radius: 18px;
     }
@@ -77,12 +75,6 @@
       max-width: 760px;
       color: #d6f8ff;
       line-height: 1.45;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
     }
 
     .card {
@@ -167,10 +159,9 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 8px;
+      margin-top: 14px;
     }
 
-    button,
     .btn-link {
       border: 0;
       border-radius: 11px;
@@ -182,42 +173,13 @@
       align-items: center;
       justify-content: center;
       transition: transform 100ms ease, filter 100ms ease;
-    }
-
-    button:hover,
-    .btn-link:hover {
-      transform: translateY(-1px);
-      filter: brightness(0.98);
-    }
-
-    .primary {
       background: linear-gradient(125deg, #0b6f84, #155ca3);
       color: #f4fcff;
     }
 
-    .secondary {
-      background: #e7f2f4;
-      color: #133748;
-      border: 1px solid #c1d8de;
-    }
-
-    .danger {
-      background: #f9ece8;
-      color: var(--warn);
-      border: 1px solid #edc9bf;
-    }
-
-    .preview {
-      white-space: pre-wrap;
-      background: #fbfeff;
-      border: 1px dashed #b5c9d2;
-      border-radius: 12px;
-      padding: 12px;
-      min-height: 150px;
-      line-height: 1.45;
-      color: #1e333d;
-      margin-top: 8px;
-      font-size: 0.95rem;
+    .btn-link:hover {
+      transform: translateY(-1px);
+      filter: brightness(0.98);
     }
 
     .small {
@@ -226,12 +188,12 @@
       margin-top: 6px;
     }
 
-    .status {
+    .guide-status {
       margin-top: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--ok);
+      font-size: 0.86rem;
+      color: #2f5766;
       min-height: 18px;
+      white-space: pre-wrap;
     }
 
     .footer {
@@ -245,7 +207,6 @@
     }
 
     @media (max-width: 900px) {
-      .grid,
       .row {
         grid-template-columns: 1fr;
       }
@@ -265,149 +226,118 @@
     <section class="hero">
       <h1>Samsung Dryer Noise Intake</h1>
       <p>
-        Capture the issue once, then send structured details to contractors for quote, date,
-        and service-window estimates.
+        Step 1 of 2: capture homeowner and issue details, then continue to the
+        contractor estimate page.
       </p>
     </section>
 
-    <div class="grid">
-      <section class="card">
-        <h2>Homeowner Details</h2>
+    <section class="card">
+      <h2>Homeowner Details</h2>
 
-        <div class="row">
-          <div class="field">
-            <label for="name">Full name</label>
-            <input id="name" type="text" placeholder="Your name" />
-          </div>
-          <div class="field">
-            <label for="phone">Phone</label>
-            <input id="phone" type="tel" placeholder="(555) 555-5555" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" type="email" placeholder="you@example.com" />
-          </div>
-          <div class="field">
-            <label for="model">Model</label>
-            <input id="model" type="text" value="DVEA8800V/A3" />
-          </div>
-        </div>
-
+      <div class="row">
         <div class="field">
-          <label for="serial">Serial number</label>
-          <input id="serial" type="text" placeholder="Optional" />
+          <label for="name">Full name</label>
+          <input id="name" type="text" placeholder="Your name" />
         </div>
-
         <div class="field">
-          <label for="address">Service address</label>
-          <textarea id="address" placeholder="Street, City, State, ZIP"></textarea>
+          <label for="phone">Phone</label>
+          <input id="phone" type="tel" placeholder="(555) 555-5555" />
         </div>
+      </div>
 
+      <div class="row">
         <div class="field">
-          <label for="summary">Problem summary (2-5 bullets or short paragraph)</label>
-          <textarea id="summary" placeholder="Example: Grinding noise starts 2 min into cycle. Happens every cycle. Worse with heavy loads."></textarea>
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" />
         </div>
-
         <div class="field">
-          <label for="noiseType">Primary noise type</label>
-          <select id="noiseType">
-            <option>Grinding</option>
-            <option>Squeaking</option>
-            <option>Thumping</option>
-            <option>Rattling</option>
-            <option>Buzzing/Humming</option>
-            <option>Other</option>
-          </select>
+          <label for="model">Model</label>
+          <input id="model" type="text" value="DVEA8800V/A3" />
         </div>
+      </div>
 
-        <div class="field">
-          <label>When does the noise occur?</label>
-          <div class="checks" id="whenChecks">
-            <label><input type="checkbox" value="At startup" />At startup</label>
-            <label><input type="checkbox" value="During tumble" />During tumble</label>
-            <label><input type="checkbox" value="During heating" />During heating</label>
-            <label><input type="checkbox" value="Near cycle end" />Near cycle end</label>
-            <label><input type="checkbox" value="Only with heavy loads" />Only with heavy loads</label>
-            <label><input type="checkbox" value="Intermittent" />Intermittent</label>
-          </div>
+      <div class="actions" style="margin-top: 4px;">
+        <button class="btn-link" id="manualsBtn" type="button">Search User Guides (Manuals Downloader)</button>
+      </div>
+      <div class="guide-status" id="manualsStatus"></div>
+
+      <div class="field">
+        <label for="serial">Serial number</label>
+        <input id="serial" type="text" placeholder="Optional" />
+      </div>
+
+      <div class="field">
+        <label for="address">Service address</label>
+        <textarea id="address" placeholder="Street, City, State, ZIP"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="summary">Problem summary (2-5 bullets or short paragraph)</label>
+        <textarea id="summary" placeholder="Example: Grinding noise starts 2 min into cycle. Happens every cycle. Worse with heavy loads."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="noiseType">Primary noise type</label>
+        <select id="noiseType">
+          <option>Grinding</option>
+          <option>Squeaking</option>
+          <option>Thumping</option>
+          <option>Rattling</option>
+          <option>Buzzing/Humming</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>When does the noise occur?</label>
+        <div class="checks" id="whenChecks">
+          <label><input type="checkbox" value="At startup" />At startup</label>
+          <label><input type="checkbox" value="During tumble" />During tumble</label>
+          <label><input type="checkbox" value="During heating" />During heating</label>
+          <label><input type="checkbox" value="Near cycle end" />Near cycle end</label>
+          <label><input type="checkbox" value="Only with heavy loads" />Only with heavy loads</label>
+          <label><input type="checkbox" value="Intermittent" />Intermittent</label>
         </div>
+      </div>
 
-        <div class="field">
-          <label>Additional symptoms</label>
-          <div class="checks" id="symptomChecks">
-            <label><input type="checkbox" value="Burning smell" />Burning smell</label>
-            <label><input type="checkbox" value="Excessive vibration" />Excessive vibration</label>
-            <label><input type="checkbox" value="Dryer gets very hot" />Dryer gets very hot</label>
-            <label><input type="checkbox" value="Long dry times" />Long dry times</label>
-            <label><input type="checkbox" value="No heat" />No heat</label>
-            <label><input type="checkbox" value="Error code displayed" />Error code displayed</label>
-          </div>
+      <div class="field">
+        <label>Additional symptoms</label>
+        <div class="checks" id="symptomChecks">
+          <label><input type="checkbox" value="Burning smell" />Burning smell</label>
+          <label><input type="checkbox" value="Excessive vibration" />Excessive vibration</label>
+          <label><input type="checkbox" value="Dryer gets very hot" />Dryer gets very hot</label>
+          <label><input type="checkbox" value="Long dry times" />Long dry times</label>
+          <label><input type="checkbox" value="No heat" />No heat</label>
+          <label><input type="checkbox" value="Error code displayed" />Error code displayed</label>
         </div>
+      </div>
 
-        <div class="field">
-          <label for="media">Upload photos/videos</label>
-          <input id="media" type="file" accept="image/*,video/*" multiple />
-          <div class="small" id="fileCount">No files selected</div>
-        </div>
-      </section>
+      <div class="field">
+        <label for="media">Upload photos/videos</label>
+        <input id="media" type="file" accept="image/*,video/*" multiple />
+        <div class="small" id="fileCount">No files selected</div>
+      </div>
 
-      <section class="card">
-        <h2>Contractor Estimate Fields</h2>
+      <div class="actions">
+        <a class="btn-link" id="nextStepLink" href="contractor.html">Next Step: Contractor Estimate</a>
+      </div>
 
-        <div class="row">
-          <div class="field">
-            <label for="estimate">Estimated cost range (USD)</label>
-            <input id="estimate" type="text" placeholder="$200-$450" />
-          </div>
-          <div class="field">
-            <label for="date">Earliest service date</label>
-            <input id="date" type="date" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="window">Arrival window</label>
-          <input id="window" type="text" placeholder="Example: 10:00 AM - 12:00 PM" />
-        </div>
-
-        <div class="field">
-          <label for="notes">Assumptions/exclusions/warranty notes</label>
-          <textarea id="notes" placeholder="List assumptions and what is excluded."></textarea>
-        </div>
-
-        <div class="actions">
-          <button class="primary" id="buildBtn" type="button">Build Share Summary</button>
-          <button class="secondary" id="copyBtn" type="button">Copy Summary</button>
-          <button class="danger" id="clearBtn" type="button">Clear Form</button>
-        </div>
-
-        <div class="status" id="status"></div>
-
-        <div class="preview" id="preview">Your share-ready summary will appear here.</div>
-
-        <div class="actions" style="margin-top: 12px;">
-          <a class="btn-link secondary" id="openFormLink" href="#" target="_blank" rel="noopener noreferrer">Open Google Form</a>
-        </div>
-
-        <div class="footer">
-          Tip: Replace <strong>GOOGLE_FORM_URL</strong> in this file with your actual Google Form link.
-          Your uploaded files stay local in this page unless you upload them directly in Google Forms.
-        </div>
-      </section>
-    </div>
+      <div class="footer">
+        Click Next Step to continue to the contractor details page.
+      </div>
+    </section>
   </main>
 
   <script>
-    const GOOGLE_FORM_URL = "https://forms.google.com";
-
-    const byId = (id) => document.getElementById(id);
-
-    const ids = [
-      "name", "phone", "email", "model", "serial", "address", "summary", "noiseType",
-      "estimate", "date", "window", "notes"
+    const homeownerIds = [
+      "name",
+      "phone",
+      "email",
+      "model",
+      "serial",
+      "address",
+      "summary",
+      "noiseType"
     ];
 
     const getCheckedValues = (containerId) => {
@@ -415,99 +345,67 @@
     };
 
     const getFilesText = () => {
-      const files = byId("media").files;
+      const files = document.getElementById("media").files;
       if (!files || files.length === 0) {
         return "No files attached";
       }
       return [...files].map((f) => `${f.name} (${Math.ceil(f.size / 1024)} KB)`).join(", ");
     };
 
-    const buildSummary = () => {
-      const values = Object.fromEntries(ids.map((id) => [id, byId(id).value.trim()]));
-      const when = getCheckedValues("whenChecks");
-      const symptoms = getCheckedValues("symptomChecks");
-
-      const lines = [
-        "Samsung Dryer Issue Intake",
-        "",
-        `Homeowner: ${values.name || "-"}`,
-        `Phone: ${values.phone || "-"}`,
-        `Email: ${values.email || "-"}`,
-        `Model: ${values.model || "-"}`,
-        `Serial: ${values.serial || "-"}`,
-        `Service Address: ${values.address || "-"}`,
-        "",
-        "Issue Details:",
-        `- Problem Summary: ${values.summary || "-"}`,
-        `- Noise Type: ${values.noiseType || "-"}`,
-        `- When Noise Occurs: ${when.length ? when.join(", ") : "-"}`,
-        `- Additional Symptoms: ${symptoms.length ? symptoms.join(", ") : "-"}`,
-        `- Attached Media: ${getFilesText()}`,
-        "",
-        "Contractor Response:",
-        `- Estimated Cost: ${values.estimate || "Pending"}`,
-        `- Earliest Date: ${values.date || "Pending"}`,
-        `- Arrival Window: ${values.window || "Pending"}`,
-        `- Notes: ${values.notes || "Pending"}`
-      ];
-
-      return lines.join("\n");
-    };
-
-    const updatePreview = () => {
-      byId("preview").textContent = buildSummary();
-    };
-
-    byId("buildBtn").addEventListener("click", () => {
-      updatePreview();
-      byId("status").textContent = "Summary updated.";
+    document.getElementById("media").addEventListener("change", () => {
+      const files = document.getElementById("media").files;
+      const fileCount = document.getElementById("fileCount");
+      fileCount.textContent = !files || files.length === 0
+        ? "No files selected"
+        : `${files.length} file(s) selected`;
     });
 
-    byId("copyBtn").addEventListener("click", async () => {
-      updatePreview();
-      const text = byId("preview").textContent;
-      try {
-        await navigator.clipboard.writeText(text);
-        byId("status").textContent = "Copied to clipboard.";
-      } catch {
-        byId("status").textContent = "Clipboard permission blocked. Select and copy manually.";
+    document.getElementById("manualsBtn").addEventListener("click", () => {
+      const button = document.getElementById("manualsBtn");
+      const model = document.getElementById("model").value.trim();
+      const status = document.getElementById("manualsStatus");
+
+      if (!model) {
+        status.textContent = "Enter a model number first, then try again.";
+        return;
       }
-    });
 
-    byId("clearBtn").addEventListener("click", () => {
-      ids.forEach((id) => {
-        if (id === "model") {
-          byId(id).value = "DVEA8800V/A3";
-        } else {
-          byId(id).value = "";
-        }
-      });
+      button.disabled = true;
+      status.textContent = "Searching and downloading user guide...";
 
-      ["whenChecks", "symptomChecks"].forEach((groupId) => {
-        document.querySelectorAll(`#${groupId} input[type='checkbox']`).forEach((box) => {
-          box.checked = false;
+      fetch("/api/manuals/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ model })
+      })
+        .then(async (response) => {
+          const data = await response.json();
+          if (!response.ok || !data.ok) {
+            throw new Error(data.error || "Manual search failed.");
+          }
+
+          status.textContent = `Downloaded locally: ${data.file.relativePath}\nSource: ${data.source.pdfUrl}`;
+        })
+        .catch((error) => {
+          status.textContent = `Search failed: ${error.message}`;
+        })
+        .finally(() => {
+          button.disabled = false;
         });
-      });
-
-      byId("media").value = "";
-      byId("fileCount").textContent = "No files selected";
-      byId("preview").textContent = "Your share-ready summary will appear here.";
-      byId("status").textContent = "Form cleared.";
     });
 
-    byId("media").addEventListener("change", () => {
-      const files = byId("media").files;
-      if (!files || files.length === 0) {
-        byId("fileCount").textContent = "No files selected";
-      } else {
-        byId("fileCount").textContent = `${files.length} file(s) selected`;
-      }
+    document.getElementById("nextStepLink").addEventListener("click", () => {
+      const values = Object.fromEntries(homeownerIds.map((id) => [id, document.getElementById(id).value.trim()]));
+      const homeownerData = {
+        ...values,
+        when: getCheckedValues("whenChecks"),
+        symptoms: getCheckedValues("symptomChecks"),
+        media: getFilesText()
+      };
+      localStorage.setItem("homeownerData", JSON.stringify(homeownerData));
     });
-
-    byId("openFormLink").setAttribute("href", GOOGLE_FORM_URL);
-
-    // Auto-build a draft preview on load.
-    updatePreview();
   </script>
 </body>
 </html>
