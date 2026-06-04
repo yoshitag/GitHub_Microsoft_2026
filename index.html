@@ -188,14 +188,6 @@
       margin-top: 6px;
     }
 
-    .guide-status {
-      margin-top: 8px;
-      font-size: 0.86rem;
-      color: #2f5766;
-      min-height: 18px;
-      white-space: pre-wrap;
-    }
-
     .api-status {
       margin-top: 8px;
       font-size: 0.9rem;
@@ -244,7 +236,7 @@
 <body>
   <main class="wrap">
     <section class="hero">
-      <h1>Samsung Dryer Noise Intake</h1>
+      <h1>Appliance Repair Bot</h1>
       <p>
         Step 1 of 2: capture homeowner and issue details, then continue to the
         contractor estimate page.
@@ -275,11 +267,6 @@
           <input id="model" type="text" value="DVEA8800V/A3" />
         </div>
       </div>
-
-      <div class="actions" style="margin-top: 4px;">
-        <button class="btn-link" id="manualsBtn" type="button">Search User Guides (Manuals Downloader)</button>
-      </div>
-      <div class="guide-status" id="manualsStatus"></div>
 
       <div class="field">
         <label for="serial">Serial number</label>
@@ -338,10 +325,6 @@
         <div class="small" id="fileCount">No files selected</div>
       </div>
 
-      <div class="actions">
-        <a class="btn-link" id="nextStepLink" href="contractor.html">Next Step: Contractor Estimate</a>
-      </div>
-
       <div class="field" style="margin-top: 14px;">
         <label for="githubToken">GitHub token (for agent chat)</label>
         <input id="githubToken" type="password" placeholder="Paste your GitHub PAT here" autocomplete="off" />
@@ -356,6 +339,10 @@
 
       <div class="footer">
         Click Next Step to continue to the contractor details page.
+      </div>
+
+      <div class="actions">
+        <a class="btn-link" id="nextStepLink" href="contractor.html">Next Step: Contractor Estimate</a>
       </div>
     </section>
   </main>
@@ -424,42 +411,6 @@
       fileCount.textContent = !files || files.length === 0
         ? "No files selected"
         : `${files.length} file(s) selected`;
-    });
-
-    document.getElementById("manualsBtn").addEventListener("click", () => {
-      const button = document.getElementById("manualsBtn");
-      const model = document.getElementById("model").value.trim();
-      const status = document.getElementById("manualsStatus");
-
-      if (!model) {
-        status.textContent = "Enter a model number first, then try again.";
-        return;
-      }
-
-      button.disabled = true;
-      status.textContent = "Searching and downloading user guide...";
-
-      fetch("/api/manuals/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ model })
-      })
-        .then(async (response) => {
-          const data = await response.json();
-          if (!response.ok || !data.ok) {
-            throw new Error(data.error || "Manual search failed.");
-          }
-
-          status.textContent = `Downloaded locally: ${data.file.relativePath}\nSource: ${data.source.pdfUrl}`;
-        })
-        .catch((error) => {
-          status.textContent = `Search failed: ${error.message}`;
-        })
-        .finally(() => {
-          button.disabled = false;
-        });
     });
 
     document.getElementById("nextStepLink").addEventListener("click", () => {
