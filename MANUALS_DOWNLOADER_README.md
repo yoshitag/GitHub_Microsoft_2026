@@ -102,6 +102,22 @@ Download the manual for Samsung DVE50A8800V/A3 dryer
 - **Compatible**: Windows, macOS, Linux (via VS Code)
 - **Requirements**: VS Code with Copilot extension
 
+## Python API Example
+
+If you want a standalone Python example for GitHub Models inference, use the script in [api_call_example.py](api_call_example.py).
+
+Install the dependencies first:
+
+```bash
+pip install -r requirements.txt
+```
+
+Set your token as an environment variable named `GITHUB_PAT`, then run:
+
+```bash
+python api_call_example.py
+```
+
 ## Limitations
 
 - manuals.plus blocks some automated downloads (anti-bot protection)

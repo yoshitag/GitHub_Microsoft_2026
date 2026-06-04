@@ -196,6 +196,26 @@
       white-space: pre-wrap;
     }
 
+    .api-status {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1d7a3a;
+      min-height: 18px;
+    }
+
+    .answer-box {
+      white-space: pre-wrap;
+      background: #fbfeff;
+      border: 1px solid #d5e3ea;
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 120px;
+      line-height: 1.45;
+      color: #1e333d;
+      margin-top: 8px;
+    }
+
     .footer {
       margin-top: 16px;
       font-size: 0.85rem;
@@ -322,6 +342,18 @@
         <a class="btn-link" id="nextStepLink" href="contractor.html">Next Step: Contractor Estimate</a>
       </div>
 
+      <div class="field" style="margin-top: 14px;">
+        <label for="githubToken">GitHub token (for agent chat)</label>
+        <input id="githubToken" type="password" placeholder="Paste your GitHub PAT here" autocomplete="off" />
+      </div>
+
+      <div class="actions" style="margin-top: 4px;">
+        <button class="btn-link" id="askBtn" type="button">Ask Agent About This Submission</button>
+      </div>
+
+      <div class="api-status" id="apiStatus"></div>
+      <div class="answer-box" id="apiAnswer">Agent response will appear here.</div>
+
       <div class="footer">
         Click Next Step to continue to the contractor details page.
       </div>
@@ -329,6 +361,9 @@
   </main>
 
   <script>
+    const API_ENDPOINT = "https://models.github.ai/inference/chat/completions";
+    const API_MODEL = "openai/gpt-5";
+
     const homeownerIds = [
       "name",
       "phone",
@@ -350,6 +385,37 @@
         return "No files attached";
       }
       return [...files].map((f) => `${f.name} (${Math.ceil(f.size / 1024)} KB)`).join(", ");
+    };
+
+    const buildHomeownerData = () => {
+      const values = Object.fromEntries(homeownerIds.map((id) => [id, document.getElementById(id).value.trim()]));
+      return {
+        ...values,
+        when: getCheckedValues("whenChecks"),
+        symptoms: getCheckedValues("symptomChecks"),
+        media: getFilesText()
+      };
+    };
+
+    const buildAgentPrompt = (homeownerData) => {
+      const lines = [
+        "Samsung dryer intake submission:",
+        `Homeowner: ${homeownerData.name || "-"}`,
+        `Phone: ${homeownerData.phone || "-"}`,
+        `Email: ${homeownerData.email || "-"}`,
+        `Model: ${homeownerData.model || "-"}`,
+        `Serial: ${homeownerData.serial || "-"}`,
+        `Address: ${homeownerData.address || "-"}`,
+        `Problem summary: ${homeownerData.summary || "-"}`,
+        `Primary noise type: ${homeownerData.noiseType || "-"}`,
+        `Noise occurs: ${homeownerData.when.length ? homeownerData.when.join(", ") : "-"}`,
+        `Additional symptoms: ${homeownerData.symptoms.length ? homeownerData.symptoms.join(", ") : "-"}`,
+        `Attached media: ${homeownerData.media}`,
+        "",
+        "Please provide: 1) likely causes, 2) top 3 follow-up diagnostic questions, and 3) recommended next repair steps."
+      ];
+
+      return lines.join("\n");
     };
 
     document.getElementById("media").addEventListener("change", () => {
@@ -397,14 +463,56 @@
     });
 
     document.getElementById("nextStepLink").addEventListener("click", () => {
-      const values = Object.fromEntries(homeownerIds.map((id) => [id, document.getElementById(id).value.trim()]));
-      const homeownerData = {
-        ...values,
-        when: getCheckedValues("whenChecks"),
-        symptoms: getCheckedValues("symptomChecks"),
-        media: getFilesText()
-      };
+      const homeownerData = buildHomeownerData();
       localStorage.setItem("homeownerData", JSON.stringify(homeownerData));
+    });
+
+    document.getElementById("askBtn").addEventListener("click", async () => {
+      const token = document.getElementById("githubToken").value.trim();
+      const apiStatus = document.getElementById("apiStatus");
+      const apiAnswer = document.getElementById("apiAnswer");
+
+      if (!token) {
+        apiStatus.textContent = "Add your GitHub token first.";
+        return;
+      }
+
+      const homeownerData = buildHomeownerData();
+      localStorage.setItem("homeownerData", JSON.stringify(homeownerData));
+      const prompt = buildAgentPrompt(homeownerData);
+
+      apiStatus.textContent = "Waiting for agent response...";
+      apiAnswer.textContent = "Loading...";
+
+      try {
+        const response = await fetch(API_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            model: API_MODEL,
+            messages: [
+              { role: "system", content: "You answer briefly and directly." },
+              { role: "user", content: prompt }
+            ]
+          })
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || `Request failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+        const content = data?.choices?.[0]?.message?.content || "No response text was returned.";
+        apiAnswer.textContent = content;
+        apiStatus.textContent = "Answer received.";
+      } catch (error) {
+        apiAnswer.textContent = "Unable to load the answer.";
+        apiStatus.textContent = `Request failed: ${error.message}`;
+      }
     });
   </script>
 </body>
